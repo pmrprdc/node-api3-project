@@ -12,7 +12,9 @@ router.get('/', async(req, res) => {
   // RETURN AN ARRAY WITH ALL THE USERS
 });
 
-router.get('/:id', (req, res) => {
+router.get('/:id', async(req, res) => {
+  const current = await Users.getById(req.params.id)
+  res.status(400).json(current)
   // RETURN THE USER OBJECT
   // this needs a middleware to verify user id
 });
