@@ -50,10 +50,12 @@ router.post('/', async(req, res) => {
   // this needs a middleware to check that the request body is valid
 });
 
-router.put('/:id',validateUserId, async(req, res) => {
+router.put('/:id',validateUserId,validateUser, async(req, res) => {
+  
   const {id} = req.params;
   const updatedUser = await Users.update(id,req.body)
   res.status(201).json(updatedUser)
+  
   // RETURN THE FRESHLY UPDATED USER OBJECT
   // this needs a middleware to verify user id
   // and another middleware to check that the request body is valid
