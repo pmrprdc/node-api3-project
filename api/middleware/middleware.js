@@ -21,6 +21,24 @@ async function validateUserId (req, res, next) {
 }
 
 function validateUser(req, res, next) {
+  try{
+    const { name } = req.body;
+    if(!name){
+     return res.status(400).json(
+        {
+          message: "missing required name"
+        }
+      )} else{
+        next();
+      }
+    }catch(err){
+        res.status(404).json({ message: "Internal server error" }); // Handle database errors
+
+      }
+    
+
+
+ 
   // DO YOUR MAGIC
 }
 

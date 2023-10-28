@@ -28,19 +28,32 @@ router.get('/:id',validateUserId, async(req, res) => {
 });
 
 router.post('/', async(req, res) => {
+    const { name } = req.body;
+    if(!name){
+     return res.status(400).json(
+        {
+          message: "missing required name"
+        }
+      )
+    }
+
+
   try {
     const updated = await Users.insert(req.body);
     res.status(201).json(updated);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Error inserting the post.' });
+    res.status(500).json({ error: 'Error inserting the post' });
   }
   
   // RETURN THE NEWLY CREATED USER OBJECT
   // this needs a middleware to check that the request body is valid
 });
 
-router.put('/:id', (req, res) => {
+router.put('/:id',validateUserId, async(req, res) => {
+  const {id} = req.params;
+  const updatedUser = await Users.update(id,req.body)
+  res.status(201).json(updatedUser)
   // RETURN THE FRESHLY UPDATED USER OBJECT
   // this needs a middleware to verify user id
   // and another middleware to check that the request body is valid
