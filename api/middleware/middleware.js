@@ -16,7 +16,7 @@ async function validateUserId (req, res, next) {
       res.status(404).json({ message: "User not found" }); // Send an error response
     }
   } catch (error) {
-    res.status(500).json({ message: "Internal server error" }); // Handle database errors
+    res.status(404).json({ message: "Internal server error" }); // Handle database errors
   }
 }
 
