@@ -66,20 +66,21 @@ router.delete('/:id',validateUserId, async(req, res) => {
       const userToDelete = await Users.getById(req.params.id)
       const deletedId = await Users.remove(req.params.id)
       res.json(userToDelete)
-      
-      
      }catch(err){
       res.status(404).json({
         message: "server error"
       })
      }
-   
       
   // RETURN THE FRESHLY DELETED USER OBJECT
   // this needs a middleware to verify user id
 });
 
-router.get('/:id/posts', (req, res) => {
+router.get('/:id/posts', validateUserId, async(req, res) => {
+    
+    const userPosts = await Posts.getById(req.status.id)
+    res.json(userPosts)
+
   // RETURN THE ARRAY OF USER POSTS
   // this needs a middleware to verify user id
 });
