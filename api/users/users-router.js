@@ -15,14 +15,14 @@ const router = express.Router();
 
 router.get('/', async(req, res) => {
    const allUsers = await Users.get();
-   res.status(200).json(allUsers)
+ return  res.status(200).json(allUsers)
   // RETURN AN ARRAY WITH ALL THE USERS
 });
 
 router.get('/:id',validateUserId, async(req, res) => {
  
   const currentUser = await Users.getById(req.params.id)
-  res.status(400).json(currentUser)
+ return res.status(400).json(currentUser)
   // RETURN THE USER OBJECT
   // this needs a middleware to verify user id
 });
@@ -40,10 +40,10 @@ router.post('/', async(req, res) => {
 
   try {
     const updated = await Users.insert(req.body);
-    res.status(201).json(updated);
+    return res.status(201).json(updated);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Error inserting the post' });
+    return res.status(500).json({ error: 'Error inserting the post' });
   }
   
   // RETURN THE NEWLY CREATED USER OBJECT
@@ -54,7 +54,7 @@ router.put('/:id',validateUserId,validateUser, async(req, res) => {
   
   const {id} = req.params;
   const updatedUser = await Users.update(id,req.body)
-  res.status(201).json(updatedUser)
+  return res.status(201).json(updatedUser)
   
   // RETURN THE FRESHLY UPDATED USER OBJECT
   // this needs a middleware to verify user id
@@ -85,7 +85,12 @@ router.get('/:id/posts', validateUserId, async(req, res) => {
   // this needs a middleware to verify user id
 });
 
-router.post('/:id/posts',validateUserId, (req, res) => {
+router.post('/:id/posts',validateUserId, async(req, res) => {
+
+    const addedReturn  = await Posts.insert({...req.body, user_id: req.params.id})
+    return res.json(addedReturn)
+    
+ç
   // RETURN THE NEWLY CREATED USER POST
   // this needs a middleware to verify user id
   // and another middleware to check that the request body is valid
