@@ -3,7 +3,7 @@ const {
   validatePost,
   validateUser,
   validateUserId,
-  logger
+
 } = require('../middleware/middleware')
 // You will need `users-model.js` and `posts-model.js` both
 const Users = require('./users-model')
@@ -13,13 +13,13 @@ const router = express.Router();
 
 
 
-router.get('/',logger, async(req, res) => {
+router.get('/', async(req, res) => {
    const allUsers = await Users.get();
  return  res.status(200).json(allUsers)
   // RETURN AN ARRAY WITH ALL THE USERS
 });
 
-router.get('/:id',logger,validateUserId, async(req, res) => {
+router.get('/:id',validateUserId, async(req, res) => {
  
   const currentUser = await Users.getById(req.params.id)
  return res.status(400).json(currentUser)
@@ -27,7 +27,7 @@ router.get('/:id',logger,validateUserId, async(req, res) => {
   // this needs a middleware to verify user id
 });
 
-router.post('/',logger, async(req, res) => {
+router.post('/', async(req, res) => {
     const { name } = req.body;
     if(!name){
      return res.status(400).json(
@@ -50,7 +50,7 @@ router.post('/',logger, async(req, res) => {
   // this needs a middleware to check that the request body is valid
 });
 
-router.put('/:id',logger,validateUserId,validateUser, async(req, res) => {
+router.put('/:id',validateUserId,validateUser, async(req, res) => {
   
   const {id} = req.params;
   const updatedUser = await Users.update(id,req.body)
@@ -61,7 +61,7 @@ router.put('/:id',logger,validateUserId,validateUser, async(req, res) => {
   // and another middleware to check that the request body is valid
 });
 
-router.delete('/:id',logger,validateUserId, async(req, res) => {
+router.delete('/:id',validateUserId, async(req, res) => {
      try{
       const userToDelete = await Users.getById(req.params.id)
       const deletedId = await Users.remove(req.params.id)
@@ -76,7 +76,7 @@ router.delete('/:id',logger,validateUserId, async(req, res) => {
   // this needs a middleware to verify user id
 });
 
-router.get('/:id/posts',logger, validateUserId, async(req, res) => {
+router.get('/:id/posts', validateUserId, async(req, res) => {
     
     const userPosts = await Users.getUserPosts(req.params.id)
     return res.status(200).json(userPosts)
@@ -85,7 +85,7 @@ router.get('/:id/posts',logger, validateUserId, async(req, res) => {
   // this needs a middleware to verify user id
 });
 
-router.post('/:id/posts',logger,validateUserId,validatePost, async(req, res) => {
+router.post('/:id/posts',validateUserId,validatePost, async(req, res) => {
       // const {text} = req.body;
       // if(!text){
       //  return res.status(400).json({
