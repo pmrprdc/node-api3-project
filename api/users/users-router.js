@@ -85,13 +85,13 @@ router.get('/:id/posts', validateUserId, async(req, res) => {
   // this needs a middleware to verify user id
 });
 
-router.post('/:id/posts',validateUserId, async(req, res) => {
-      const {text} = req.body;
-      if(!text){
-       return res.status(400).json({
-          message: "missing required text"
-        })
-      }
+router.post('/:id/posts',validateUserId,validatePost, async(req, res) => {
+      // const {text} = req.body;
+      // if(!text){
+      //  return res.status(400).json({
+      //     message: "missing required text"
+      //   })
+      // }
     const addedReturn  = await Posts.insert({...req.body, user_id: req.params.id})
     return res.json(addedReturn)
     
