@@ -4,6 +4,13 @@ const Users = require('../users/users-model');
 
 function logger(req, res, next) {
   // DO YOUR MAGIC
+  const { method, url } = req;
+  const timestamp = new Date().toISOString();
+
+  console.log(`[${timestamp}] ${method} ${url}`);
+
+  // Continue processing the request
+  next();
 }
 
 async function validateUserId (req, res, next) {
